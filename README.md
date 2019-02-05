@@ -9,7 +9,7 @@ Override default checkout behavior and redirect to a custom URL.
 You have to add `src/konnektive-cart.js` script to `assets/`, and reference it
 in your `theme.liquid` file:
 
-```
+```liquid
 {% if template == 'cart' -%}
   <script src="{{ 'konnektive-cart.js' | asset_url }}" defer="defer"></script>
 {%- endif %}
@@ -20,7 +20,7 @@ normally `theme.js.liquid` file.
 
 Add this piece of script at the very start of the `cart.liquid` file:
 
-```
+```html
 <script>
   document.addEventListener("DOMContentLoaded", function(event) {
 
@@ -52,7 +52,7 @@ There is a reduced set of options you can use to configure the KonnektiveCart be
 
 For example, you could initialize the Konnektive Cart in this way:
 
-```
+```js
 var kCart = new KonnektiveCart({
   lineItems : {{ cart.items | json }},
 
