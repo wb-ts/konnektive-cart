@@ -1,9 +1,11 @@
 (function () {
 
+  var debug = true ? console.log.bind(console, '[DEBUG][KonnektiveCart]') : function () {};
+
+  debug('Script loaded');
 
   window.KonnektiveCart = function (options) {
 
-    var debug = true ? console.log.bind(console, '[DEBUG][KonnektiveCart]') : function () {};
 
     var self = {};
 
