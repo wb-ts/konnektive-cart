@@ -1,0 +1,24 @@
+{% comment %}
+  The contents of the cart.liquid template can be found in /sections/cart-template.liquid
+{% endcomment %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+
+    if (window.KonnektiveCart) {
+      var kCart = new KonnektiveCart({
+        lineItems : {{ cart.items | json }}
+      });
+
+    } else {
+      console.error(
+        'KonnektiveCart is not available.',
+        'Be sure to reference konnektive-cart.js script in this page.'
+      );
+
+    }
+
+  });
+</script>
+
+{% section 'cart-template' %}
