@@ -7,7 +7,9 @@
 
     if (window.KonnektiveCart) {
       var kCart = new KonnektiveCart({
-        lineItems : {{ cart.items | json }}
+        lineItems : {{ cart.items | json }},
+        checkoutButtonSelector: '[data-checkout-button]',
+        checkoutUrl: 'https://codepen.io/anon/pen/rPpVYm'
       });
 
     } else {

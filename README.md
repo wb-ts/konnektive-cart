@@ -82,3 +82,15 @@ has quantity 1:
 ```
 https://checkout.konnektivecrm.com/?products=15979566792778:1;15979569053770:1;15979564367946:1
 ```
+
+## Testing
+
+Set checkout URL to point to [CodePen](https://codepen.io/anon/pen/rPpVYm).
+
+```
+var kCart = new KonnektiveCart({
+  lineItems : {{ cart.items | json }},
+  checkoutButtonSelector: '[data-checkout-button]',
+  checkoutUrl: 'https://codepen.io/anon/pen/rPpVYm'
+});
+```

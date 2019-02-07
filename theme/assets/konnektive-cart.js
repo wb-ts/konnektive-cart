@@ -14,7 +14,7 @@
       self.options = Object.assign({
         lineItems : [],
         checkoutButtonSelector: '[type="submit"][name="checkout"]',
-        checkoutUrl: 'https://checkout.konnektivecrm.com'
+        checkoutUrl: 'https://www.google.com'
       }, options);
 
       self.$checkoutButton = $(self.options.checkoutButtonSelector);
