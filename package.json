@@ -7,6 +7,6 @@
   "scripts": {
     "watch": "npm rum watch:src & npm rum watch:theme",
     "watch:theme": "cd theme; theme watch",
-    "watch:src": "./node_modules/.bin/cpx ./src/konnektive-cart.js ./theme/assets/ --watch"
+    "watch:src": "./node_modules/.bin/cpx ./src/konnektive-cart.js.liquid ./theme/snippets/ --watch"
   }
 }

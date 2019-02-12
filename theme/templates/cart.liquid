@@ -2,25 +2,12 @@
   The contents of the cart.liquid template can be found in /sections/cart-template.liquid
 {% endcomment %}
 
-<script>
-  document.addEventListener("DOMContentLoaded", function(event) {
 
-    if (window.KonnektiveCart) {
-      var kCart = new KonnektiveCart({
-        lineItems : {{ cart.items | json }},
-        checkoutButtonSelector: '[data-checkout-button]',
-        checkoutUrl: 'https://codepen.io/anon/pen/rPpVYm'
-      });
-
-    } else {
-      console.error(
-        'KonnektiveCart is not available.',
-        'Be sure to reference konnektive-cart.js script in this page.'
-      );
-
-    }
-
-  });
-</script>
+{%
+  include 'konnektive-cart.js' with
+    cart: cart
+    checkout_button_selector: '[data-checkout-button]'
+    checkout_url: 'https://codepen.io/anon/pen/rPpVYm'
+%}
 
 {% section 'cart-template' %}

@@ -1,0 +1,90 @@
+{%- comment %}
+  @param cart (cart, mandatory)
+  @param checkout_url (string, mandatory) the checkout url
+  @param checkout_button_selector (string) the query selector for the checkout button
+{% endcomment -%}
+
+{% unless checkout_url %}
+  {% assign checkout_url = 'you.must.define.a.checkout.url' %}
+{% endunless %}
+
+{% unless checkout_button_selector %}
+  {% assign checkout_button_selector = '[type="submit"][name="checkout"]' %}
+{% endunless %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    var debug = true ? console.log.bind(console, '[DEBUG][KonnektiveCart]') : function () {};
+
+    debug('Script loaded');
+
+    window.KonnektiveCart = function (options) {
+
+
+      var self = {};
+
+
+      function productIdsWithQuantities() {
+        {%- assign added_first = false -%}
+        return {
+          {%- for item in cart.items -%}
+            {%- if item.variant.metafields.productId.productId -%}
+              {%- if added_first %},{% endif -%}
+              "{{ item.variant.metafields.productId.productId }}": {{ item.quantity | json }}
+              {%- assign added_first = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+        };
+      }
+
+
+      function init() {
+        self.options = Object.assign({
+          products: productIdsWithQuantities(),
+          checkoutButtonSelector: '{{ checkout_button_selector }}',
+          checkoutUrl: '{{ checkout_url }}'
+        }, options);
+
+        self.$checkoutButton = $(self.options.checkoutButtonSelector);
+
+        debug('Initialized with options', self.options);
+
+        inject();
+      }
+
+
+      function inject() {
+        debug('Inject');
+        self.$checkoutButton.on('click', checkout);
+      }
+
+
+      function checkout(event) {
+        var checkoutUrl = getCheckoutURL(self.options.products);
+        debug('Checkout ->', checkoutUrl);
+        event.preventDefault();
+        window.location.href = checkoutUrl;
+      }
+
+
+      function getCheckoutURL(products) {
+        var urlLineItems = Object.keys(products).reduce(function (output, productId) {
+          var quantity = products[productId];
+          return output.concat([ productId + ':' + quantity ]);
+        }, []).join(';');
+
+        return self.options.checkoutUrl + '?products=' + urlLineItems;
+      }
+
+
+
+      init();
+
+      return self;
+
+    };
+
+    var instance = new KonnektiveCart();
+
+  });
+</script>

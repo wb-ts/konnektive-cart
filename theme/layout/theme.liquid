@@ -70,9 +70,6 @@
   <script src="{{ 'lazysizes.js' | asset_url }}" async="async"></script>
   <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
-  {% if template == 'cart' -%}
-    <script src="{{ 'konnektive-cart.js' | asset_url }}" defer="defer"></script>
-  {%- endif %}
 
   {{ content_for_header }}
 </head>
