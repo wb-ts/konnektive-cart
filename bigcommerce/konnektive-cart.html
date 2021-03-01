@@ -1,0 +1,50 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('body').delegate('a[href="/checkout"]', 'click', function(e){
+            e.preventDefault();
+            
+            if (!$(this).hasClass('processing')) {
+                $(this).addClass('processing').text('Please wait...');
+
+                $.ajax({
+                    url: '/api/storefront/cart',
+                    success: function(cart) {
+                    	var lineItems = cart && cart[0] && cart[0].lineItems && cart[0].lineItems && cart[0].lineItems.physicalItems ? cart[0].lineItems.physicalItems : [];
+                    	var urlData = [];
+                    	var getUrlData = function(index) {
+                    		$.ajax({
+                    			url: lineItems[index].url,
+                    			dataType: 'html',
+                    			success: function(data) {
+                    				var $data = $(data);
+                    				var customFields = $data.find('.productView-info-name');
+                    				var productId = lineItems[index].productId;
+
+                    				customFields.each(function(){
+                    					if ($(this).text().trim() === 'ProductID:') {
+                    						productId = $(this).next('.productView-info-value').text();
+                    					}
+                    				});
+
+                    				urlData.push(productId + ':' + lineItems[index].quantity);
+
+                    				if (index < lineItems.length - 1) {
+                    					getUrlData(++index);
+                    				} else {
+                    					var checkoutUrl = '/?products=' + urlData.join(';');
+                    					window.location.href = checkoutUrl;
+                    				}
+                    			}
+                    		})
+                    	}
+
+                    	if (typeof lineItems === 'object' && lineItems.length > 0) {
+                    		getUrlData(0);
+                    	}
+                    }
+                });
+            }
+        });
+    });
+</script>
